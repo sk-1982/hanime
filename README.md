@@ -28,11 +28,18 @@ const video = await api.get_video(results.videos[0]);
     * `order_by: string`: search ordering, one of `'created_at_unix', 'views', 'likes', 'released_at_unix', 'title_sortable'`
     * `ordering: 'desc' | 'asc'`: ordering for `order_by`
     * `page: number`: page to search on (0-indexed)
-    * `auto-tag: boolean`: whether to convert search queries to tags. Example: query `'futa trap title'` turns into tags `['futanari', 'trap']` and query `'title'`. Default: `true`
+    * `auto_tag: boolean`: whether to convert search queries to tags. Example: query `'futa trap title'` turns into tags `['futanari', 'trap']` and query `'title'`. Default: `true`
 #### `async search(config: SearchConfig): Promise<HAnimeSearch>`: preforms a search
 * `config`: search config
-    * same properties as above, minus `auto-tag` and plus an extra string field, `search_text` for the search
-#### `async get_video(video: APIShortVideoInfo): Promise<HAnimeVideo>`: gets full video info given a short info from a search query
+    * `config.search_text: string`: text to search for
+    * `config.tags: string[]`: tags to search for
+    * `config.tags_mode: 'AND' | 'OR'`: search for videos that have every tag provided, or at least one tag provided
+    * `config.brands: string[]`: video publishers to search for
+    * `blacklist: string[]`: tags to exclude
+    * `order_by: string`: search ordering, one of `'created_at_unix', 'views', 'likes', 'released_at_unix', 'title_sortable'`
+    * `ordering: 'desc' | 'asc'`: ordering for `order_by`
+    * `page: number`: page to search on (0-indexed)
+#### `async get_video(video: APIShortVideoInfo | string): Promise<HAnimeVideo>`: gets full video info given a short info from a search query, or a slug
 
 ### `class HAnimeSearch`: results from a search
 #### `page: number`: the current page of this search
