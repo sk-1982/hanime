@@ -1,6 +1,16 @@
 # HAnime API
 A NodeJS module written in TypeScript to access hanime's undocumented API.
 
+# Usage
+```js
+const { HAnimeAPI } = require('hanime');
+const api = new HAnimeAPI();
+
+const results = await api.search('query');
+
+const video = await api.get_video(results.videos[0]);
+```
+
 # Documentation
 
 ### `class HAnimeAPI`: main API class
