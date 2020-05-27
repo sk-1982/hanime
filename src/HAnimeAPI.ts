@@ -66,10 +66,6 @@ export class HAnimeAPI {
 
         if (!this.options.timeout) this.options.timeout = 5000;
         if (!this.options.fetch_options) this.options.fetch_options = {};
-
-        this.search('', {
-            blacklist: ['3d']
-        })
     }
 
     private get_fetch_options(options: RequestInit): RequestInit {
