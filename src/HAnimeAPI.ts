@@ -5,6 +5,7 @@ import { HAnimeSearch } from './HAnimeSearch';
 import { APITags } from './api-types/APITags';
 import { APIShortVideoInfo } from './api-types/APIShortVideoInfo';
 import { HAnimeVideo } from './HAnimeVideo';
+import AbortController from 'abort-controller';
 
 const tag_aliases: { [key: string]: APITags } = {
     '3-d': '3d',
@@ -143,21 +144,33 @@ export class HAnimeAPI {
     }
 
     private async api_search(config: APISearchRequest): Promise<APISearchResult> {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), this.options.timeout);
+
         const result = await fetch('https://search.htv-services.com/', this.get_fetch_options({
             method: 'POST',
             body: JSON.stringify(config),
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            signal: controller.signal
         }));
 
-        return await result.json();
+        clearTimeout(timeout);
+
+        return result.json();
     }
 
     public async get_video(video: APIShortVideoInfo): Promise<HAnimeVideo> {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), this.options.timeout);
+
         const video_info = await fetch(`https://members.hanime.tv/rapi/v7/video?id=${video.slug}`, this.get_fetch_options({
-            method: 'GET'
+            method: 'GET',
+            signal: controller.signal
         }));
+
+        clearTimeout(timeout);
 
         return new HAnimeVideo(await video_info.json());
     }

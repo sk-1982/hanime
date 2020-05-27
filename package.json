@@ -20,6 +20,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
+    "abort-controller": "^3.0.0",
     "node-fetch": "^2.6.0",
     "string-strip-html": "^4.4.7",
     "tslib": "^2.0.0"
