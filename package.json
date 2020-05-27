@@ -1,0 +1,30 @@
+{
+  "name": "hanime",
+  "version": "1.0.0",
+  "description": "API for accessing hanime.tv",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "keywords": [
+    "hentai",
+    "hanime"
+  ],
+  "author": "sk-1982",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^14.0.5",
+    "@types/node-fetch": "^2.5.7",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.0",
+    "string-strip-html": "^4.4.7",
+    "tslib": "^2.0.0"
+  },
+  "files": [
+    "lib/**/*"
+  ]
+}
