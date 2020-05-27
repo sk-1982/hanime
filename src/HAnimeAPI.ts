@@ -161,11 +161,13 @@ export class HAnimeAPI {
         return result.json();
     }
 
-    public async get_video(video: APIShortVideoInfo): Promise<HAnimeVideo> {
+    public async get_video(video: APIShortVideoInfo | string): Promise<HAnimeVideo> {
+        const slug = typeof video == 'string' ? video : video.slug;
+
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), this.options.timeout);
 
-        const video_info = await fetch(`https://members.hanime.tv/rapi/v7/video?id=${video.slug}`, this.get_fetch_options({
+        const video_info = await fetch(`https://members.hanime.tv/rapi/v7/video?id=${slug}`, this.get_fetch_options({
             method: 'GET',
             signal: controller.signal
         }));
