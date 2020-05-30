@@ -82,18 +82,15 @@ export class HAnimeAPI {
         return real_url.replace(hostname, '');
     }
 
-    private static jetpack_url(url: string, quality = 100, null_1?: null, null_2?: null, cdn?: string) {
+    private static jetpack_url(url: string, quality = 100, width_that_doesnt_actually_do_anything?: number, height?: number, cdn?: string) {
         // reverse engineered from function jetpackUrl in hanime webpack bundle
         // remind me to never try this ever again
-
-        // what the fuck is this supposed to do
-        const n = null_2 !== undefined ? null_2 : null;
 
         if (!url) return ''
         
         const path = this.get_path(url);
 
-        const real_path = n ? `${path}?quality=${quality}&h=${n}` : `${path}?quality=${quality}`;
+        const real_path = height ? `${path}?quality=${quality}&h=${height}` : `${path}?quality=${quality}`;
 
         if (/\/archived-assets-\d+\./.test(url)) {
             const hostname = url.replace(/http[s]:\/\//, '').split('/')[0];
