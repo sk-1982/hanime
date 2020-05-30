@@ -1,5 +1,6 @@
 import { APIVideo } from './api-types/APIVideo';
 import strip_html from 'string-strip-html';
+import { HAnimeAPI } from './HAnimeAPI';
 
 export class HAnimeVideo {
     constructor(private video: APIVideo) {}
@@ -21,11 +22,11 @@ export class HAnimeVideo {
     }
 
     public get poster_url() {
-        return this.video.hentai_video.poster_url;
+        return HAnimeAPI.get_image_url(this.video.hentai_video.poster_url, 100, 'cps')
     }
 
     public get cover_url() {
-        return this.video.hentai_video.cover_url;
+        return HAnimeAPI.get_image_url(this.video.hentai_video.cover_url, 100, 'cps')
     }
 
     public get video_url() {

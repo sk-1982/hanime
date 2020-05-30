@@ -69,6 +69,46 @@ export class HAnimeAPI {
         if (!this.options.fetch_options) this.options.fetch_options = {};
     }
 
+    private static get_path(url: string) {
+        // reversed engineerd from function getPath in hanime webpack bundle
+
+        if (!url) return '';
+        if (url.startsWith('/')) return url;
+
+        const real_url = url.replace(/http[s]{0,1}:\/\//, '').replace(/i\d\.wp\.com\//, '');
+
+        const hostname = real_url.split('/')[0];
+
+        return real_url.replace(hostname, '');
+    }
+
+    private static jetpack_url(url: string, quality = 100, null_1?: null, null_2?: null, cdn?: string) {
+        // reverse engineered from function jetpackUrl in hanime webpack bundle
+        // remind me to never try this ever again
+
+        // what the fuck is this supposed to do
+        const n = null_2 !== undefined ? null_2 : null;
+
+        if (!url) return ''
+        
+        const path = this.get_path(url);
+
+        const real_path = n ? `${path}?quality=${quality}&h=${n}` : `${path}?quality=${quality}`;
+
+        if (/\/archived-assets-\d+\./.test(url)) {
+            const hostname = url.replace(/http[s]:\/\//, '').split('/')[0];
+            const segment = hostname.split('.')[0].split('-').pop();
+
+            return `https://i1.wp.com/archived-assets-${segment}.imageg.top${real_path}`;
+        }
+
+        return cdn == 'cps' ? `https://i1.wp.com/static-assets.droidbuzz.top${real_path}` : `https://i1.wp.com/dynamic-assets.imageg.top${real_path}`;
+    }
+
+    public static get_image_url(url: string, quality = 100, cdn?: string) {
+        return this.jetpack_url(url, quality, null, null, cdn);
+    }
+
     private get_fetch_options(options: RequestInit): RequestInit {
         return Object.assign({},
             this.options.fetch_options,
